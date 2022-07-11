@@ -1,8 +1,8 @@
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 import { useState, createContext } from "react";
-import Login from "./components/Login";
-import Profile from "./components/Profile";
-import Signin from "./components/Signin";
+import Login from "./components/Login.jsx";
+import Profile from "./components/Profile.jsx";
+import Signin from "./components/Signin.jsx";
 
 export const AppContext = createContext();
 
@@ -15,7 +15,10 @@ function App() {
 				<Routes>
 					<Route path='/' element={<Signin />} />
 					<Route path='/login' element={<Login />} />
-					<Route path='/home' element={<Profile username='Aditya' />} />
+					<Route
+						path='/home'
+						element={auth ? <Profile /> : <Navigate to='/login' />}
+					/>
 				</Routes>
 			</AppContext.Provider>
 		</>
