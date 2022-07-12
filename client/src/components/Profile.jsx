@@ -71,8 +71,7 @@ export default function Profile() {
 					textAlign={"center"}
 					color={useColorModeValue("gray.700", "gray.400")}
 					px={3}>
-					Actress, musician, songwriter and artist. PM for work inquires or me
-					in your posts
+					Welcome to Insight Club!
 				</Text>
 
 				<Stack align={"center"} justify={"center"} direction={"row"} mt={6}>
