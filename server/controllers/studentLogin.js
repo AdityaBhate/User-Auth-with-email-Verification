@@ -1,4 +1,5 @@
 import bcrypt from "bcrypt";
+import studentLogin from "../model/studentsLogin.js";
 import StudentLogin from "../model/studentsLogin.js";
 import userOtpVerification from "../model/userOtpVerification.js";
 import { sendOTPVerifcationMail } from "./sendOTPVerifcationMail.js";
@@ -13,7 +14,7 @@ export const getStudentID = async (req, res) => {
 			return res.json({ Auth: "User not found" });
 		}
 		if (await bcrypt.compare(password, doc.password)) {
-			return res.json({ Auth: "success" });
+			return res.json({ Auth: "success", user: doc });
 		} else {
 			res.json({ Auth: "username or password incorrect" });
 		}
@@ -77,4 +78,11 @@ export const verifyOTP = async (req, res) => {
 	} catch (error) {
 		console.log(error);
 	}
+};
+
+export const getStudent = (req, res) => {
+	const _id = req.params.id;
+	studentLogin.findOne({ _id: _id }, async (err, doc) => {
+		res.json(doc);
+	});
 };

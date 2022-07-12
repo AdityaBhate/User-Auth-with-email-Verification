@@ -25,7 +25,7 @@ const POST_URL = "http://localhost:3001/api/student/user/login";
 
 export default function Login() {
 	const navigate = useNavigate();
-	const { setAuth, setVerify } = useContext(AppContext);
+	const { setAuth, setVerify, setId } = useContext(AppContext);
 	const [showPassword, setShowPassword] = useState(false);
 	const [submitForm, setSubmitForm] = useState("");
 	const [user, setUser] = useState({ username: "", password: "" });
@@ -37,6 +37,7 @@ export default function Login() {
 			if (res.data.Auth === "success") {
 				setAuth(true);
 				setVerify(true);
+				setId(res.data.user._id);
 				navigate("/home");
 			}
 		});
