@@ -23,7 +23,7 @@ export const sendOTPVerifcationMail = async ({ _id, email }, res) => {
 			from: "otpverifier123@gmail.com",
 			to: email,
 			subject: "Verify your Email",
-			html: `<p>Enter the following otp to verify your email</p> <br/> <p><strong>${otp}</strong></p><br/><p>This otp expires in 1 hour</p>`,
+			html: `<p>Enter the following otp to verify your email</p><p><strong>${otp}</strong></p><p>This otp expires in 1 hour</p>`,
 		};
 		//hash otp
 		const hashedOTP = await bcrypt.hash(otp, 10);

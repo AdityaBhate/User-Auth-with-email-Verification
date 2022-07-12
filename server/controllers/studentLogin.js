@@ -41,13 +41,14 @@ export const createStudentID = async (req, res) => {
 };
 
 export const verifyOTP = async (req, res) => {
+	const { _id, otp } = req.body;
 	try {
-		const { _id, otp } = req.body;
 		await userOtpVerification.findOne(
 			{
 				_id: _id,
 			},
 			async (err, doc) => {
+				console.log(doc);
 				if (!doc) {
 					return res.json({
 						message:
@@ -65,17 +66,15 @@ export const verifyOTP = async (req, res) => {
 					if (validateOTP) {
 						await StudentLogin.updateOne({ _id: _id }, { verified: true });
 						await userOtpVerification.deleteMany({ _id: _id });
-						res.json({ OTPstatus: "OTP verification success" });
+						return res.json({ OTPstatus: "OTP verification success" });
 					} else {
-						res.json({ OTPstatus: "OTP didnt match" });
+						console.log("otp is wrong");
+						return res.json({ OTPstatus: "OTP didnt match" });
 					}
 				}
 			}
 		);
 	} catch (error) {
-		res.json({
-			Status: "Verification Failed",
-			Message: error.Message,
-		});
+		console.log(error);
 	}
 };

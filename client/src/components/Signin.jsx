@@ -25,7 +25,7 @@ export default function Signin() {
 	const navigate = useNavigate();
 	const [showPassword, setShowPassword] = useState(false);
 	const [submitForm, setSubmitForm] = useState("");
-	const { setAuth } = useContext(AppContext);
+	const { setAuth, setId } = useContext(AppContext);
 	const [user, setUser] = useState({
 		username: "",
 		email: "",
@@ -37,12 +37,13 @@ export default function Signin() {
 		if (user.username && user.email && user.password) {
 			setSubmitForm("");
 			axios.post(POST_URL, user).then((res) => {
-				console.log(res.data.username);
+				console.log(res.data._id);
 				if (res.data.username === "" && res.data.email === "") {
 					setAuth(false);
 				} else {
 					setAuth(true);
-					navigate("/home");
+					setId(res.data._id);
+					navigate("/verify");
 				}
 			});
 		} else {

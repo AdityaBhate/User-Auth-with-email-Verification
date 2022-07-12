@@ -1,105 +1,112 @@
-import { ReactNode } from "react";
 import {
-	Box,
-	Flex,
+	Heading,
 	Avatar,
-	HStack,
-	Link,
-	IconButton,
-	Button,
-	Menu,
-	MenuButton,
-	MenuList,
-	MenuItem,
-	MenuDivider,
-	useDisclosure,
-	useColorModeValue,
-	Stack,
+	Box,
+	Center,
 	Text,
+	Stack,
+	Button,
+	Badge,
+	useColorModeValue,
 } from "@chakra-ui/react";
-import { HamburgerIcon, CloseIcon } from "@chakra-ui/icons";
+import { useContext } from "react";
+import { useNavigate } from "react-router-dom";
+import { AppContext } from "../App";
+import axios from "axios";
 
-const Links = ["Dashboard", "Tasks", "Team"];
-
-const NavLink = ({ children }) => (
-	<Link
-		px={2}
-		py={1}
-		rounded={"md"}
-		_hover={{
-			textDecoration: "none",
-			bg: useColorModeValue("gray.200", "gray.700"),
-		}}
-		href={"#"}>
-		{children}
-	</Link>
-);
-
-export default function Profile({ username, email }) {
-	const { isOpen, onOpen, onClose } = useDisclosure();
-
+export default function Profile() {
+	const navigate = useNavigate();
+	const { setAuth, setVerify, setId } = useContext(AppContext);
+	const signOut = () => {
+		setAuth(false);
+		setVerify(false);
+		setId("");
+		navigate("/");
+	};
 	return (
-		<>
-			<Box bg={useColorModeValue("gray.100", "gray.900")} px={4}>
-				<Flex h={16} alignItems={"center"} justifyContent={"space-between"}>
-					<IconButton
-						size={"md"}
-						icon={isOpen ? <CloseIcon /> : <HamburgerIcon />}
-						aria-label={"Open Menu"}
-						display={{ md: "none" }}
-						onClick={isOpen ? onClose : onOpen}
-					/>
-					<HStack spacing={8} alignItems={"center"}>
-						<Box>Insight Club</Box>
-						<HStack
-							as={"nav"}
-							spacing={4}
-							display={{ base: "none", md: "flex" }}>
-							{Links.map((link) => (
-								<NavLink key={link}>{link}</NavLink>
-							))}
-						</HStack>
-					</HStack>
-					<Flex alignItems={"center"}>
-						<Menu>
-							<MenuButton
-								as={Button}
-								rounded={"full"}
-								variant={"link"}
-								cursor={"pointer"}
-								minW={0}>
-								<Avatar
-									size={"sm"}
-									src={
-										"https://images.unsplash.com/photo-1493666438817-866a91353ca9?ixlib=rb-0.3.5&q=80&fm=jpg&crop=faces&fit=crop&h=200&w=200&s=b616b2c5b373a80ffc9636ba24f7a4a9"
-									}
-								/>
-							</MenuButton>
-							<MenuList>
-								<MenuItem>Link 1</MenuItem>
-								<MenuItem>Link 2</MenuItem>
-								<MenuDivider />
-								<MenuItem>Link 3</MenuItem>
-							</MenuList>
-						</Menu>
-					</Flex>
-				</Flex>
+		<Center py={6}>
+			<Box
+				maxW={"320px"}
+				w={"full"}
+				bg={useColorModeValue("white", "gray.900")}
+				boxShadow={"2xl"}
+				rounded={"lg"}
+				p={6}
+				textAlign={"center"}>
+				<Avatar
+					size={"xl"}
+					src={
+						"https://images.unsplash.com/photo-1520810627419-35e362c5dc07?ixlib=rb-1.2.1&q=80&fm=jpg&crop=faces&fit=crop&h=200&w=200&ixid=eyJhcHBfaWQiOjE3Nzg0fQ"
+					}
+					alt={"Avatar Alt"}
+					mb={4}
+					pos={"relative"}
+					_after={{
+						content: '""',
+						w: 4,
+						h: 4,
+						bg: "green.300",
+						border: "2px solid white",
+						rounded: "full",
+						pos: "absolute",
+						bottom: 0,
+						right: 3,
+					}}
+				/>
+				<Heading fontSize={"2xl"} fontFamily={"body"}>
+					Lindsey James
+				</Heading>
+				<Text fontWeight={600} color={"gray.500"} mb={4}>
+					test@gmail.com
+				</Text>
+				<Text
+					textAlign={"center"}
+					color={useColorModeValue("gray.700", "gray.400")}
+					px={3}>
+					Actress, musician, songwriter and artist. PM for work inquires or me
+					in your posts
+				</Text>
 
-				{isOpen ? (
-					<Box pb={4} display={{ md: "none" }}>
-						<Stack as={"nav"} spacing={4}>
-							{Links.map((link) => (
-								<NavLink key={link}>{link}</NavLink>
-							))}
-						</Stack>
-					</Box>
-				) : null}
-			</Box>
+				<Stack align={"center"} justify={"center"} direction={"row"} mt={6}>
+					<Badge
+						px={2}
+						py={1}
+						bg={useColorModeValue("green.200", "green.800")}
+						fontWeight={"400"}>
+						Verified
+					</Badge>
+				</Stack>
 
-			<Box p={4} textAlign='center'>
-				Welcome
-				<Text color='red.500'>{username}</Text>
+				<Stack mt={8} direction={"row"} spacing={4}>
+					<Button
+						flex={1}
+						fontSize={"sm"}
+						rounded={"full"}
+						onClick={signOut}
+						_focus={{
+							bg: "gray.200",
+						}}>
+						Sign out
+					</Button>
+					<Button
+						flex={1}
+						fontSize={"sm"}
+						rounded={"full"}
+						bg={"blue.400"}
+						color={"white"}
+						boxShadow={
+							"0px 1px 25px -5px rgb(66 153 225 / 48%), 0 10px 10px -5px rgb(66 153 225 / 43%)"
+						}
+						_hover={{
+							bg: "blue.500",
+						}}
+						_focus={{
+							bg: "blue.500",
+						}}>
+						Follow
+					</Button>
+				</Stack>
 			</Box>
-		</>
+		</Center>
 	);
 }
